@@ -1,0 +1,283 @@
+% Compile with PdfLaTeX
+
+\documentclass[12pt,letterpaper,boxed]{hmcpset}
+
+% set 1-inch margins in the document
+\usepackage[margin=1in]{geometry}
+
+% include this if you want to import graphics files with /includegraphics
+
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[all]{xy}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{}
+\lhead{\small\leftmark}
+\rfoot{-\hspace{4pt}\thepage\hspace{4pt}- }
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% info for header block in upper right hand corner
+\name{Hooy}
+\updatedate{\vspace*{1pt}\today}
+
+\begin{document}
+		
+\problemlist{\textbf{\LARGE Functional Analysis}}
+
+\section{Metric Spaces and Normed Spaces}
+\begin{problem}[1.1]
+	Let $(X,d)$ be a metric space. Prove that $\rho(x,y)=\frac{d(x,y)}{1+d(x,y)}$ is also a metric on $X$.
+\end{problem}
+\begin{solution}
+	If $X$ is a metric space, then we can check that
+	\begin{enumerate}
+		\item $\rho(x,y)=\frac{d(x,y)}{1+d(x,y)}=0\iff d(x,y)=0\iff x=y$,
+		\item $\rho(x,y)=\frac{d(x,y)}{1+d(x,y)}=\frac{d(y,x)}{1+d(y,x)}=\rho(y,x)$,
+		\item $\rho(x,y)=\frac{d(x,y)}{1+d(x,y)}\le\frac{d(x,z)+d(y,z)}{1+d(x,y)+d(y,z)}\le \frac{d(x,z)}{1+d(x,z)}+\frac{d(x,z)}{1+d(y,z)}=\rho(x,z)+\rho(y,z)$, where the first inequality holds because $f(t)=\frac{1}{1+t}$ is increasing on $[0,+\infty)$ and $d(x,y)\le d(x,z)+d(y,z)$.
+	\end{enumerate}
+
+\end{solution}
+
+\begin{problem}[1.2]
+	Let $(\mathbb{R}^\mathbb{N}, d)$ be a metric space, where $\mathbb{R}^\mathbb{N}$ consists of all infinite sequences of real numbers and $d$ is defined as 
+	\[
+		\forall x=(x_i)\in\mathbb{R}^\mathbb{N},\;\forall y=(y_i)\in\mathbb{R}^\mathbb{N},\;d(x,y)=\sum_{i=1}^\infty\frac{1}{2^i}\frac{|x_i-y_i|}{1+|x_i-y_i|}.
+	\]
+	Show that the convergence of a sequence in $(\mathbb{R}^\mathbb{N}, d)$ is equivalent to the convergence of every component of that sequence in $\mathbb{R}$. That is, 
+	\[
+		\lim_{n\to\infty}x^{(n)}=\lim_{n\to\infty}\left(x_1^{(n)},x_2^{(n)},\cdots\right)=\left(y_1,y_2,\cdots\right)=y
+	\]
+	is equivalent to for $i=1,2,\cdots$,
+	\[
+		\lim_{n\to\infty}x_i^{(n)}=y_i.
+	\]
+\end{problem}
+\begin{solution}
+	1. Prove $\lim_{n\to\infty}x^{(n)}= y\implies\lim_{n\to\infty}x_i^{(n)}=y_i\;(i=1,2,\cdots) $. 
+		
+	Fix some $i$. Since $\lim_{n\to\infty}x^{(n)}=y$, given any $\epsilon>0$, there exsits $N>0$ such that for all $n>N$,
+	\[
+		d\left(x^{(n)},y\right)<\frac{1}{2^i}\frac{\epsilon}{1+\epsilon}.
+	\]
+	Note that
+	\begin{align*}
+		&d\left(x^{(n)},y\right)<\frac{1}{2^i}\frac{\epsilon}{1+\epsilon}\\
+		\implies &\sum_{i=1}^\infty\frac{1}{2^i}\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}<\frac{1}{2^i}\frac{\epsilon}{1+\epsilon}\\
+		\implies &\frac{1}{2^i}\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}<\frac{1}{2^i}\frac{\epsilon}{1+\epsilon}\\
+		\implies &\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}<\frac{\epsilon}{1+\epsilon}\\
+		\implies &\left|x_i^{(n)}-y_i\right|<\epsilon.
+	\end{align*}
+	We show that $\lim_{n\to\infty}x_i^{(n)}=y_i$
+
+	\noindent 2. Prove $\lim_{n\to\infty}x_i^{(n)}=y_i\;(i=1,2,\cdots)\implies\lim_{n\to\infty}x^{(n)}= y$. 
+
+	If $\lim_{n\to\infty}x_i^{(n)}=y_i\;(i=1,2,\cdots)$, then for any $\epsilon>0$, for each $i$, there exists $N_i>0$ such that \[
+		n>N_i\implies \left|x_i^{(n)}-y_i\right|<\frac{\epsilon}{2}.
+	\]
+	Since
+	\[
+		\lim_{k\to \infty}\sum_{i=k}^\infty\frac{1}{2^i}=0,
+	\]
+	we have for all $\epsilon>0$, there exists $M>0$ such that
+	\[
+		k>M\implies\sum_{i=k}^\infty\frac{1}{2^i}<\frac{\epsilon}{2}.
+	\]
+	Take $N=\max\left\{M,N_1,N_2,\cdots,N_M\right\}$. For any $n>M$, we have
+	\begin{align*}
+		d\left(x^{(n)},y\right)&=\sum_{i=1}^\infty\frac{1}{2^i}\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}\\
+		&=\sum_{i=1}^N\frac{1}{2^i}\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}+\sum_{i=M+1}^\infty\frac{1}{2^i}\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}\\
+		&<\sum_{i=1}^N\frac{1}{2^i}\frac{\left|x_i^{(n)}-y_i\right|}{1+\left|x_i^{(n)}-y_i\right|}+\frac{\epsilon}{2}\\
+		&\le\sum_{i=1}^N\frac{1}{2^i}\left|x_i^{(n)}-y_i\right|+\frac{\epsilon}{2}\quad\left(\frac{t}{1+t}\le t,\forall t\ge0\right)\\
+		&<\sum_{i=1}^N\frac{1}{2^i}\frac{\epsilon}{2}+\frac{\epsilon}{2}\\
+		&<\frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon,
+	\end{align*}
+	which implies that $\lim_{n\to\infty}x^{(n)}= y$.
+\end{solution}
+
+\begin{problem}[1.4]
+	(1) Suppose $p,q,r>1$, $\frac{1}{p}+\frac{1}{q}=\frac{1}{r}$, $f\in L^p(E)$, and $g\in L^q(E)$. Show that 
+	\[
+		\left\Vert fg\right\Vert_r\le \left\Vert f\right\Vert_p\left\Vert g\right\Vert_q.
+	\]
+	(2) Suppose $p,q,r>1$, $\frac{1}{p}+\frac{1}{q}+\frac{1}{r}=1$, $f\in L^p(E)$, $g\in L^q(E)$ and $h\in L^r(E)$. Show that 
+	\[
+		\left\Vert fgh\right\Vert_1\le 
+		\left\Vert f\right\Vert_p
+		\left\Vert g\right\Vert_q
+		\left\Vert h\right\Vert_r.
+	\]
+\end{problem}
+\begin{solution}
+(1) Since 
+\[
+	\frac{1}{p/r}+\frac{1}{q/r}=1,
+\]
+namely $p/r$, $q/r$ are Hölder conjugates of each other, we can apply Hölder's inequality to $f^r$ and $g^r$ to obtain
+\[
+	\int_E\left|f^rg^r\right|dx\le\left(\int_E\left|f^r\right|^{p/r}dx\right)^{\frac{1}{p/r}}\left(\int_E\left|g^r\right|^{q/r}dx\right)^{\frac{1}{q/r}},
+\]
+which is equivalent to
+\[
+	\int_E\left|f^rg^r\right|dx\le\left(\int_E\left|f\right|^pdx\right)^{\frac{r}{p}}\left(\int_E\left|g\right|^{q}dx\right)^{\frac{r}{q}}.
+\]
+Taking the $r$-th roots of both sides of the inequality, we show that $\left\Vert fg\right\Vert_r\le \left\Vert f\right\Vert_p\left\Vert g\right\Vert_q$.
+
+\noindent (2) Since $\frac{r-1}{r}+\frac{1}{r}=1$, namely $\frac{r}{r-1}$, $r$ are Hölder conjugates of each other, we can apply Hölder's inequality to $fg$ and $h$ to obtain
+\[
+	\int_E\left|fgh\right|dx\le
+	\left(\int_E\left|fg\right|^{\frac{r}{r-1}}dx\right)^{\frac{r-1}{r}}
+	\left(\int_E\left|h\right|^{r}dx\right)^{\frac{1}{r}},
+\]
+namely
+\[
+	\left\Vert fgh\right\Vert_1\le 
+	\left\Vert fg\right\Vert_{\frac{r}{r-1}}
+	\left\Vert h\right\Vert_r.
+\]
+Note that 
+\[
+	\frac{1}{p}+\frac{1}{q}=\frac{1}{\frac{r}{r-1}}.
+\]
+what we have proven in 1.4.(2) gives us the inequality
+\[
+	\left\Vert fg\right\Vert_{\frac{r}{r-1}}\le \left\Vert f\right\Vert_p\left\Vert g\right\Vert_q.
+\]
+Therefore, we have
+\[
+	\left\Vert fgh\right\Vert_1\le
+	\left\Vert fg\right\Vert_{\frac{r}{r-1}}
+	\left\Vert h\right\Vert_r\le
+	\left\Vert f\right\Vert_p
+	\left\Vert g\right\Vert_q
+	\left\Vert h\right\Vert_r.
+\] 
+\end{solution}
+
+\begin{problem}[1.6]
+	Suppose $1\le p_1<p_2<\infty$. Show that
+	\begin{enumerate}[(1)]
+		\item $l^{p_1}\subset l^{p_2}$.
+		\item If $m(E)<\infty$, then $L^{p_2}(E)\subset L^{p_1}(E)$.
+	\end{enumerate}
+\end{problem}
+\begin{solution}
+	(1) Suppose $x=(x_1,x_2,\cdots)\in \ell^{p_1}$. We have
+	\[
+		\sum_{n=1}^\infty |x_n|^{p_1}<\infty
+	\]
+	and
+	\[
+		\lim_{n\to\infty}|x_n|^{p_1}=0.
+	\]
+	Thus we can assume that there exists $M>0$ such that for all $n>M$, $|x_n|^{p_1}<1$. Note that $1\le p_1< p_2<\infty$. We obtain 
+	\[
+		|x_n|^{p_2}=\left(|x_n|^{p_1}\right)^{\frac{p_2}{p_1}}<|x_n|^{p_1}.
+	\]
+	Since
+	\begin{align*}
+		\sum_{n=1}^{\infty}\left|x_{n}\right|^{p_{2}}=&\sum_{n=1}^{M}\left|x_{n}\right|^{p_{2}}+\sum_{n=M+1}^{\infty}\left|x_{n}\right|^{p_{2}}\\
+		\leqslant& \sum_{n=1}^{M}\left|x_{n}\right|^{p_{2}}+\sum_{n=M+1}^{\infty}\left|x_{n}\right|^{p_{1}}<\infty,
+	\end{align*}
+	we show that $x\in\ell^{p_2}$, which implies  $l^{p_1}\subset l^{p_2}$.
+
+	\noindent (2) Let $f\in L^{p_2}(E)$. Since
+	\begin{align*}
+		\int_{E}\left|f\right|^{p_1}dx=&\int_{E(|f|<1)}\left|f\right|^{p_1}dx+\int_{E\left(|f|\ge 1\right)}\left|f\right|^{p_1}dx\\
+		\le&\int_{E(|f|<1)}\mathbb{1}_E\,dx+\int_{E\left(|f|\ge 1\right)}\left|f\right|^{p_2}dx\\
+		\le&\,m\left(E\right)+\|f\|_{p_2}^{p_2}<\infty
+	\end{align*}
+	we show that $f\in L^{p_1}(E)$, which implies $L^{p_2}(E)\subset L^{p_1}(E)$. We can also utilize the inequality that we get in problem 1.4.(1) to show that
+	\[
+		\|f\|_{p_1}=\|f\,\mathbb{1}_E\|_{p_1}\le \left\|f\right\|_{p_2}\|\mathbb{1}_E\|_{1/\left(\frac{1}{p_1}-\frac{1}{p_2}\right)}=\|f\|_{p_2}\,m(E)^{\frac{1}{p_1}-\frac{1}{p_2}}<\infty.
+	\]
+
+\end{solution}
+
+\begin{problem}[1.9]
+	Show that $A=\{x=(x_i)\in\ell^p:x_i\ge0,i=1,2,\cdots\}$ are close sets in $\ell^p\,(1\le p\le \infty)$.
+\end{problem}
+\begin{solution}
+	Suppose $\{x^{(n)}\}$ is a convergent sequence in $\ell^p$ and $\lim_{n\to\infty}x^{(n)}=y$. Since $\ell^p$ is a close set, we see $y\in\ell^p$. Note that as $n\to\infty$,
+	\[
+		\left|x^{(n)}_i-y_i\right|\le\left\|x^{(n)}-y\right\|_p\to0\quad(i=1,2,\cdots).
+	\]
+	There must be 
+	\[
+		\lim_{n\to\infty}y_i-x^{(n)}_i= 0.
+	\]
+	Since
+	\[
+		y_i\ge y_i-x^{(n)}_i,
+	\]
+	let $n$ approaches infinity, we can deduce $y_i\ge0$. That implies $y\in A$ and accordingly completes the proof.
+\end{solution}
+
+
+\begin{problem}[1.11]
+	Suppose $A$ is a set consisting of all nonnegative functions in $C[a,b]$. Find $A^\circ$.
+\end{problem}
+\begin{solution}
+	The norm in $C[a,b]$ is given by
+	\[
+		\|f\|=\max_{a\le x\le b}|f(x)|.
+	\]
+	Let
+	\[
+		B=\{f\in C[a,b]\mid \forall x\in[a,b], f(x)>0\}.
+	\]
+	(1) Prove $B\subset A^\circ$.
+	Given any $f\in B$, let
+	\[
+		m=\min_{a\le x\le b}f(x).
+	\]
+	For all $g\in U(f,m)$, we have
+	\begin{align*}
+		\min_{a\le x\le b} g(x)=&\min_{a\le x\le b}(f(x)+(g(x)-f(x)))\\
+		\ge&\min_{a\le x\le b}f(x)+\min_{a\le x\le b}(g(x)-f(x))\\
+		=&\;m-\max_{a\le x\le b}(f(x)-g(x))\\
+		\ge&\;m-\|f-g\|\\
+		>&\;m-m=0,
+	\end{align*}
+	which implies $g\in A$. Thus we get $U(f,m)\subset A$ and $f\in A^\circ$.~\\
+
+	\noindent(2) Prove $B^c\subset\left(A^\circ\right)^c$.
+	For any $g\notin B$, there exists $x_0\in[a,b]$ such that $g(x_0)\le0$. Given any $\epsilon>0$, we can take $h=g-\epsilon/2$. Note that
+	\[
+		\|h-g\|=\epsilon/2\implies h\in U(g,\epsilon)
+	\]
+	and
+	\[
+		h(x_0)=g(x_0)-\epsilon/2<0\implies h\notin A.
+	\]
+	We can conclude for any neighborhood  $U(g,\epsilon)$ of $g$, there exsits $h\in U(g,\epsilon)$ such that $h\notin A$. Thus we get $g\notin A^\circ$ and prove that $B^c\subset\left(A^\circ\right)^c$.
+\end{solution}
+
+\begin{problem}[1.13]
+	Let $E$ be a linear subspace of the normed space $X$. Show that $\overline{E}$ is a linear subspace of $X$.
+\end{problem}
+\begin{solution}
+	For all $x,y\in \overline{E}$, there exist sequences $\{x_n\}$ and $\{y_n\}$ in $X$ such that $\lim_{n\to\infty}x_n=x$ and $\lim_{n\to\infty}y_n=y$. Therefore, for all $\lambda \in \mathbb{R}$ and all $x,y\in \overline{E}$, there exists a sequence $\{x_n+\lambda y_n\}$ in $X$ such that $\lim_{n\to\infty}\left(x_n+\lambda y_n\right)=x+\lambda y$. That is, $x+\lambda y\in \overline{E}$. Therefore, $\overline{E}$ is a linear subspace of $X$.
+\end{solution}
+
+\begin{problem}[1.14]
+	Prove that $T:C[0,1]\to C[0,1],\;x(t)\to \sin x(t)$ is continuous.
+\end{problem}
+\begin{solution}
+	For any $x(t), y(t)\in C[0,1]$, we have
+	\begin{align*}
+		\|Tx-Ty\|&=\max_{0\le t\le 1}\left|\sin x(t)-\sin y(t)\right|\\
+		&=\max_{0\le t\le 1}\left|2\cos\frac{x(t)+y(t)}{2}\sin\frac{x(t)-y(t)}{2}\right|\\
+		&\le \max_{0\le t\le 1}\left|2\,\frac{x(t)-y(t)}{2}\right|\quad\left(\left|\sin\frac{x(t)-y(t)}{2}\right|\le \left|\frac{x(t)-y(t)}{2}\right|\right)\\
+		&=\|x-y\|.
+	\end{align*}
+	Therefore, for all $\epsilon>0$, there exists $\delta=\epsilon$ such that whenever $\|x-y\|<\delta$, we have $\|Tx-Ty\|<\epsilon$. That means $T$ is uniformly continuous and hence continuous.
+\end{solution}
+
+\end{document}
