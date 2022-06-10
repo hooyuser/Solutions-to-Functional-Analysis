@@ -280,4 +280,57 @@ Therefore, we have
 	Therefore, for all $\epsilon>0$, there exists $\delta=\epsilon$ such that whenever $\|x-y\|<\delta$, we have $\|Tx-Ty\|<\epsilon$. That means $T$ is uniformly continuous and hence continuous.
 \end{solution}
 
+\begin{problem}[1.15]
+	Let $(X,d)$ be a metric space and $A$ be a nonempty subset of $X$. Show that
+	\begin{enumerate}[(1)]
+		\item $d(x,A)=0$ if and only if $x\in \overline{A}$. Specially, if $A$ is closed and $x\notin A$, then $d(x,A)>0$.
+		\item $f(x)=d(x,A)\;(x\in X)$ is a continuous function over $X$.
+	\end{enumerate}
+\end{problem}
+\begin{solution}
+	\begin{enumerate}[(1)]
+		\item If $x\in \overline{A}$, there exists a sequence $\{x_n\}$ in $A$ such that $\lim\limits_{n\to\infty}x_n=x$. We can deduce that 
+		\[
+			d(x,A)\le \inf_{n\ge1}\|x_n-x\|=0,
+		\]
+		which implies $d(x,A)=0$. 
+
+		If 
+		\begin{align*}
+			d(x,A)&=\inf_{a\in A}\|a-x\|=0,
+		\end{align*}
+		then there exists a sequence $\{x_n\}$ in $A$ such that
+		\[
+			\|x_n-x\|<\frac{1}{n}.
+		\]
+		As $n\to \infty$, we have $\|x_n-x\|\to 0$ or equivalently $\lim\limits_{n\to\infty}x_n=x$. Thus $x\in \overline{A}$. So we prove that $d(x,A)=0$ if and only if $x\in \overline{A}$.
+
+		Since $A$ is closed if and only if $A=\overline{A}$, we can conclude that if $A$ is closed and $x\notin A$, then $d(x,A)>0$.
+		\item Note that
+		\begin{align*}
+			|d(x,A)-d(y,A)|&=\left|\inf_{a\in A}\|a-x\|-\inf_{a\in A}\|a-y\|\right|\\
+			&\le
+		\end{align*}
+	\end{enumerate}
+\end{solution}
+
+\begin{problem}[1.16]
+	Let $F$ be a closed set in the metric space $X$. Show that there exist a sequence of open sets $\{G_n\}$ such that $F=\bigcap\limits_{n\ge 1}G_n$.
+\end{problem}
+\begin{solution}
+	Let $G_n=\{x\in X\mid d(x,F)<\frac{1}{n}\}$ for all $n\ge 1$. First, we can show that $G_n$ is open. Given any $x\in G_n$, we have $\forall y\in U\left(x, \frac{1}{n}-d(x,F)\right)$, 
+	\begin{align*}
+		d(y,F)&\le d(y,x)+d(x,F)\\
+		&<\frac{1}{n}-d(x,F)+d(x,F)\\
+		&=\frac{1}{n},
+	\end{align*} 
+	which implies $y\in G_n$. Thus, we see $U\left(x, \frac{1}{n}-d(x,F)\right)\subset G_n$, which means $G_n$ is open.
+	
+	Then we will show that $F\subset\bigcap\limits_{n\ge 1}G_n$. For any $x\in F$, since $F$ is closed, there exists a sequence $\{x_n\}$ in $F$ such that $\lim_{n\to\infty}x_n=x$. We can deduce that 
+	\[
+		d(x,F)\le \inf_{n\ge1}\|x_n-x\|=0,
+	\]
+	which implies $d(x,F)=0$. Thus for all $n\ge 1$, we have $F\subset G_n$.
+\end{solution}
+
 \end{document}
